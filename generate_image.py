@@ -1,5 +1,5 @@
 #
-# Main file, Beta version
+# File that used to generate images, it was called main.py
 # Parallel computing unfinished.
 # Use gpu and multiple cpus for acceleration in the future.
 # Tracing algorithm needs to be improved as well.

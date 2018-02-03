@@ -5,6 +5,46 @@
 
 import numpy as np
 
+def add_cone():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def intersect_cone():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def add_cylinder():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def intersect_cylinder():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def add_cube():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def intersect_cube():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def add_pyramid():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
+def intersect_pyramid():
+    # Define cone here.
+    # Method is unfinished
+    return None
+
 def add_sphere(position, radius, color):
     return dict(type='sphere', position=np.array(position), 
         radius=np.array(radius), color=np.array(color), reflection=.5)
