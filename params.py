@@ -38,4 +38,12 @@ class Parameters:
         # Screen coordinates: x0, y0, x1, y1.
         r = float(self.width) / self.height
         self.Screen = (-1., -1. / r + .25, 1., 1. / r + .25)
+        
+class Scene:
+    def __init__(self):
+        self.objs = []
+    
+    def add_obj(self, obj):
+        self.objs.append(obj)
+        
 
