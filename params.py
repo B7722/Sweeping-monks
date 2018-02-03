@@ -16,11 +16,11 @@ class Parameters:
         # Parameters of the scene
         self.color_plane0 =  1. * np.ones(3)
         self.color_plane1 =  0. * np.ones(3)
-        self.scene = [objlib.add_sphere([.75, .1, 1.], .6, [0., 0., 1.]),
-                      objlib.add_sphere([-.75, .1, 2.25], .6, [.5, .223, .5]),
-                      objlib.add_sphere([-2.75, .1, 3.5], .6, [1., .572, .184]),
-                      objlib.add_plane([0., -.5, 0.], [0., 1., 0.],self.color_plane0, self.color_plane1),
-                    ]
+        self.scene = Scene()
+        self.scene.add_object(objlib.add_sphere([.75, .1, 1.], .6, [0., 0., 1.]))
+        self.scene.add_object(objlib.add_sphere([-.75, .1, 2.25], .6, [.5, .223, .5]))
+        self.scene.add_object(objlib.add_sphere([-2.75, .1, 3.5], .6, [1., .572, .184]))
+        self.scene.add_object(objlib.add_plane([0., -.5, 0.], [0., 1., 0.],self.color_plane0, self.color_plane1))
 
         # Light info
         self.Light = np.array([5., 5., -10.])
@@ -38,4 +38,10 @@ class Parameters:
         # Screen coordinates: x0, y0, x1, y1.
         r = float(self.width) / self.height
         self.Screen = (-1., -1. / r + .25, 1., 1. / r + .25)
+        
+class Scene:
+    def __init__(self):
+        self.objs = []
 
+    def add_object(self, obj):
+        self.objs.append(obj)

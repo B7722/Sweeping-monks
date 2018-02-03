@@ -27,7 +27,7 @@ def get_color(obj, M):
 def trace_ray(rayO, rayD, parameters):
     # Find first point of intersection with the scene.
     t = np.inf
-    for i, obj in enumerate(parameters.scene):
+    for i, obj in enumerate(parameters.scene.objs):
         t_obj = intersect(rayO, rayD, obj)
         if t_obj < t:
             t, obj_idx = t_obj, i
@@ -35,7 +35,7 @@ def trace_ray(rayO, rayD, parameters):
     if t == np.inf:
         return
     # Find the object.
-    obj = parameters.scene[obj_idx]
+    obj = parameters.scene.objs[obj_idx]
     # Find the point of intersection on the object.
     M = rayO + rayD * t
     # Find properties of the object.
@@ -45,7 +45,7 @@ def trace_ray(rayO, rayD, parameters):
     toO = normalize(parameters.Camera - M)
     # Shadow: find if the point is shadowed or not.
     l = [intersect(M + N * .0001, toL, obj_sh) 
-            for k, obj_sh in enumerate(parameters.scene) if k != obj_idx]
+            for k, obj_sh in enumerate(parameters.scene.objs) if k != obj_idx]
     if l and min(l) < np.inf:
         return
     # Start computing the color.
