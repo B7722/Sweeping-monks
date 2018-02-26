@@ -1,0 +1,12 @@
+ray of inght  intersects the cube：
+
+For the ray p (t) = e + td and the surface equation of the cube f (p) = 0, when the ray intersects the surface then the p must satisfy the surface equation:
+f(p(t))=0 or (e+td)=0;
+for a cube, there are six surfance equations because one cube has six surfaces, and we can use Normal vector and the points in one surface to represent this surface,
+so the six equations are:
+(p-c)*Nx=0; (p-c)*Ny=0; (p-c)*Nz=0;(p-c)*Nx=0; (p-c)*Ny=0; (p-c)*Nz=0;
+#p is the point which we need to calculate, Nx Ny Nz are the normal vectors;
+put p=e+td into equation then we can get t= (p-c)*N/d*N;
+so we can get six points from six equation;
+next we determine if the point P (the point which ray intersects cube) is within the cube;
+if t >0 and t<x,y,z( x,y,z are the given cube size）， then p is within the cube.
