@@ -1,0 +1,54 @@
+
+//Fllowing is the math principle.
+
+Firstly,there are two equations,
+ray equation: p(t) = e + td;
+the surface equation of the cuboid f (p) = 0.
+when the when the ray intersects cuboid,
+there is a point p which within the ray and the couboid at the same time,
+then the point p must satisfy ray equation: p(t) = e + td and the surface equation f (p) = 0.
+it means that f(p(t))=0 or (e+td)=0.
+
+Secondly, we give the surface equation of the cuboid f (p) = 0 by mathematical method.
+as we all know, cuboid has six surfaces, so there are six surface equations.
+in mathematical method, we can use Normal vector and one 3D point to represent a surface,
+and now in our modling, we give a 3D point c (x,y,z) as the origin of a 3D coordinate system,
+our our cuboid is in this 3D coordinate system;
+meanwhile, we give 3 vetors as the x,y,z axes of coordinate system and the normal vectors  for each surface of our cuboid.
+then, the equations are:
+(p-c)*Nx=0; 
+(p-c)*Ny=0; 
+(p-c)*Nz=0;
+(p-c)*Nx=0; 
+(p-c)*Ny=0;
+(p-c)*Nz=0;
+
+//p is the given point and the precise data need to be transmitted by the front end;
+//The surface equation of the two opposing planes in the cuboid is the same one,
+//because these two planes use the same normal vector and the same 3D point c.
+
+next put ray equation p = e + td into the surface equation of the cuboid,
+Through mathematical operations， we can get t= (p-c)*N/d*N.
+accronding to this t, we can get the value of p(t) = e + td,
+so we get  the 3D point p （within the ray) which we want to know if it is the point which is the intersection point.
+
+Thirdly, we can find if this point p is within the surface of cubolid.
+if t >0,
+t<x,y,z;
+
+//x,y,z are the given cube size，
+
+then p is within the cube.
+if not, 
+p is not the Intersection point，
+We can give up this point.
+
+
+//explanation:
+// The intersection principle of light with a cuboid and the principle of intersection principle of light with a cube are similar.
+//The cube is the hexahedron which has the  smae data of length, width and height,
+//and the cboid is the hexahedron which has the different data of length, width and height.
+//So what we need to do is change parameters.
+//Data is transmitted from the front end， we can change paramters from the given data.
+//The step of changing the parameter needs the cooperation of front end and backend,
+//So this step is not described in the modeling document.
