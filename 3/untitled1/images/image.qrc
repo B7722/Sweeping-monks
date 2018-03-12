@@ -1,0 +1,11 @@
+<RCC>
+<qresource>
+	<file>time.jpg</file>
+	<file>background.jpg</file>
+	<file>button.jpg</file>
+	<file>1.jpg</file>
+	<file>2.jpg</file>
+	<file>3.jpg</file>
+		<file>4.jpg</file>
+</qresource>
+</RCC>
