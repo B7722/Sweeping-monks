@@ -18,12 +18,30 @@
     <ClCompile Include="First.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec3.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hitable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hitablelist.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

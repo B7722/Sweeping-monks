@@ -1,8 +1,11 @@
-﻿  First.cpp
+﻿  main.cpp
 d:\programme\c++\raytracer\raytracer\vec3.h(55): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
 d:\programme\c++\raytracer\raytracer\vec3.h(145): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\programme\c++\raytracer\raytracer\first.cpp(13): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\programme\c++\raytracer\raytracer\first.cpp(33): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\programme\c++\raytracer\raytracer\first.cpp(34): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
-d:\programme\c++\raytracer\raytracer\first.cpp(34): warning C4305: “参数”: 从“double”到“float”截断
+d:\programme\c++\raytracer\raytracer\sphere.h(22): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\sphere.h(31): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\sphere.h(38): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\hitablelist.h(22): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\main.cpp(21): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\main.cpp(22): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+d:\programme\c++\raytracer\raytracer\main.cpp(22): warning C4305: “参数”: 从“double”到“float”截断
   RayTracer.vcxproj -> D:\Programme\C++\RayTracer\Debug\RayTracer.exe

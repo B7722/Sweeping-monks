@@ -112,9 +112,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="First.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="cube.h" />
+    <ClInclude Include="hitable.h" />
+    <ClInclude Include="hitablelist.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="sphere.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
