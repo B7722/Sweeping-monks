@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+#header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:500px;
+    width:280px;
+    float:left;
+    padding:5px;	      
+}
+#section {
+    width:350px;
+    float:left;
+    padding:10px;	 	 
+}
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+   padding:5px;	 	 
+}
+#next
+{
+	width:940px;
+	height:500px;
+	
+	}
+</style>
+</head>
+
+<body>
+
+<div id="header">
+<h1>Ray Tracing</h1>
+</div>
+
+<div id="nav">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>
+<script>
+var data=["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]; //62
+
+function creat_string(){
+    var result="";
+    for(var i=0;i<20;i++){
+        var r=Math.floor(Math.random()*62);     //取得0-62间的随机数，目的是以此当下标取数组data里的值！  
+        result+=data[r];        //输出20次随机数的同时，让r加20次，就是20位的随机字符串了。
+    }
+    return result; 
+}
+
+function main(){
+    var url=$("#url").val();
+    var html=$("#html").val();
+    var num=Number($("#num").val());
+    var str="";
+    $("#str").html('');
+    for(var i=0; i<num; i++){
+        str=url+'/'+creat_string1()+'/'+html+'<br>';
+        $("#str").append(str);
+    }
+}
+
+window.onload = function() {
+    var save = document.getElementById("save");
+    // IE
+    if(/msie/i.test(navigator.userAgent)) {
+        save.onclick = function() {
+            var path = prompt("C:\Users\wq\Desktop\web\database.txt");
+            var content = $("#str").html();
+            content = content.replace(/<br>/g, "\r\n"); //把所有的br替换成换行符
+            var fso = new ActiveXObject("Scripting.FileSystemObject");
+            var s = fso.CreateTextFile(path, true);
+            s.WriteLine(content);
+            s.Close();
+        };
+    }
+    // Firefox/Chrome/Safari/Opera
+    else {
+       
+        save.onmouseover = function() {
+            var content = $("#str").html();
+            this.setAttribute("href",
+                "data:application/octet-stream;base64,"
+                + Base64.encode(content));
+        };
+    }
+};
+
+</script>
+<div>
+ <form action="database.txt" method="post">
+Shape<br>
+<img src="images/Trangle.jpg" widht="50px" height="50px">
+<img src="images/Cone.jpg" widht="50px" height="50px">
+<img src="images/Ball.jpg" widht="50px" height="50px">
+<img src="images/Cuboid.png" widht="50px" height="50px">
+<br>
+
+ Color<input id="Color" type="color" name="color" value="" /><label></label>
+    <div>
+ Texture
+<select NAME="TEMP" onchange="KK.innerText =this.options[this.selectedIndex].value">
+<option value="Cone">cone</option>
+<option value="Cuboid">Cuboid</option>
+<option value="Ball">Ball</option>
+<option value="Trangle">Trangle</option>
+</select>
+</div>
+</div>
+Opacity<input type="range" min="0" max="100" value="100"/>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+ <div><button a href="javascript:void(0)" onClick="main()">Set</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button a id='save' href="javascript:void(0)">Rendering</a></div>
+  </p>
+  
+  </form> 
+</div>
+
+
+<div id="section">
+<iframe id="next" src="index.html"></iframe>
+</div>
+
+
+<div id="footer">
+Sweeping Monks
+</div>
+
+</body>
+</html>
