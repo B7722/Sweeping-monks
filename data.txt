@@ -1,0 +1,15 @@
+Name: Camera 
+Position: 0 0 0
+Orientation: 0 0 0
+Name: Ball
+Position: 0 0 0
+Color: 111 111 111
+Transparency: 100
+Name: Cuboid
+Position: 0 0 0
+Color: 111 111 111
+Transparency: 100
+Name: Ball
+Position: 0 0 0
+Color: 222 222 222
+Transparency: 100
