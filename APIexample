@@ -1,0 +1,11 @@
+import Data
+
+objects_in_scene = Data.load('data.txt')
+
+for i in range(len(objects_in_scene)):
+    print objects_in_scene[i].getName()
+    print objects_in_scene[i].getPosition()
+    print objects_in_scene[i].getOrientation()
+    print objects_in_scene[i].getColor()
+    print objects_in_scene[i].getTransparency()
+
