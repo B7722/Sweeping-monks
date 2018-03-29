@@ -137,34 +137,53 @@ def intersect_sphere(O, D, S, R):
 
 @cuda.jit(device = True)
 def trace_ray(rayO, rayD, obj, M, N, col_ray):
-    return 1
-    M = rayO + rayD * t
+    toL = cuda.local.array(shape=(3), dtype=float32)
+    toO = cuda.local.array(shape=(3), dtype=float32)
+    LnO = cuda.local.array(shape=(3), dtype=float32)
+    t = intersect(rayO, rayD, obj)
+    for i in range(len(M)):
+        M[i] = rayO[i] + rayO[i] * t
     # Find properties of the object.
-    N = get_normal(obj, M)
-    color = get_color(obj, M)
-    toL = normalize(L - M)
-    toO = normalize(O - M)
-    # Shadow: find if the point is shadowed or not.
-    l = [intersect(M + N * .0001, toL, obj_sh) 
-            for k, obj_sh in enumerate(scene) if k != obj_idx]
-    if l and min(l) < np.inf:
-        return
-    # Start computing the color.
-    col_ray = ambient
-    # Lambert shading (diffuse).
-    col_ray += obj.get('diffuse_c', diffuse_c) * max(np.dot(N, toL), 0) * color
-    # Blinn-Phong shading (specular).
-    col_ray += obj.get('specular_c', specular_c) * max(np.dot(N, normalize(toL + toO)), 0) ** specular_k * color_light
-    return obj, M, N, col_ray
-    
+    a1,a2,a3 = get_normal(obj, M)
+    N[0] = a1
+    N[1] = a2
+    N[2] = a3
+    color = get_color(obj)
+    for i in range(len(toL)):
+        toL[i] = L[i]
+        toL[i] -= M[i]
+    for i in range(len(toO)):
+        toO[i] = O[i]
+        toO[i] -= M[i]
+    tmp = normalize(toL)
+    toL = tmp
+    tmp = normalize(toO)
+    toO = tmp
+    for i in range(len(toO)):
+        LnO[i] = toL[i] +  toO[i]
+    tmp = normalize(LnO)
+    LnO = tmp
 
-#@cuda.jit(device = True)
-#def load_objects(objs, scene):
-#    for idx in range(len(scene)):
-#        for a in range(len(scene[idx])):
-#            for b in range(len(scene[idx,1])):
-#                objs[idx,a,b] = scene[idx,a,b]
-#    return objs
+    # Lambert shading (diffuse).
+    if obj[0,0] == 1:
+        diff_c = .75
+        spec_c = 0.5
+    elif obj[0,0] == 2:
+        diff_c = diffuse_c
+        spec_c = specular_c
+           
+    for i in range(len(col_ray)):
+        col_ray[i] = diff_c * max(dot(N, toL), 0) * color[i] + ambient
+        col_ray[i] += spec_c * max(dot(N, LnO), 0) ** specular_k * color_light[i]
+        
+    return col_ray
+
+@cuda.jit(device = True)
+def test():
+    if True:
+        return 1,2,3,4
+    else:
+        return
 
 @cuda.jit(device = True)
 def load_object(obj, scene, idx):
@@ -173,8 +192,6 @@ def load_object(obj, scene, idx):
             obj[a,b] = scene[idx,a,b]
     return obj
 
-
-        
 
 @cuda.jit
 def fast_compute(img,xy,O,scene):
@@ -186,7 +203,13 @@ def fast_compute(img,xy,O,scene):
     rayO_d = cuda.shared.array(shape=(3), dtype=float32)
     rayD_d = cuda.shared.array(shape=(3), dtype=float32)
     obj = cuda.shared.array(shape=(numofattributes,numofdimensions), dtype=float32)
-    objs = cuda.shared.array(shape=(maxnumofobjects,numofattributes,numofdimensions), dtype=float32)
+    obj_sh = cuda.shared.array(shape=(numofattributes,numofdimensions), dtype=float32)
+    M = cuda.local.array(shape=(3), dtype=float32)
+    N = cuda.local.array(shape=(3), dtype=float32)
+    toL = cuda.local.array(shape=(3), dtype=float32)
+    toO = cuda.local.array(shape=(3), dtype=float32)
+    col_ray = cuda.local.array(shape=(3), dtype=float32)
+    ray_sh = cuda.local.array(shape=(3), dtype=float32)
 
 
     i,j = cuda.grid(2)
@@ -204,49 +227,95 @@ def fast_compute(img,xy,O,scene):
     D_d[0] = Q_d[0] - O[0]
     D_d[1] = Q_d[1] - O[1]
     D_d[2] = Q_d[2] - O[2]
-    t = normalize(D_d)
-    D_d = t 
+    D_d = normalize(D_d) 
     
     
     rayO_d[0] = O[0]
     rayO_d[1] = O[1]
     rayO_d[2] = O[2]
     rayD_d = D_d
+    reflection_d[0] = 1.
     cuda.syncthreads()
     
 
     #trace_ray(rayO_d, rayD_d, obj)
-        
+    t = -1
+    idx = -1
+    for i in range(len(scene)):
+        load_object(obj, scene, i)
+        dist = intersect(rayO_d, rayD_d, obj)
+        if dist != -1:
+            t = dist
+            idx = i
     cuda.syncthreads()
+    # Return None if the ray does not intersect any object.
+    if t == -1:
+        img[i,j,0] = 0
+        img[i,j,1] = 0
+        img[i,j,2] = 0
+    else:
+        load_object(obj, scene, idx)
+        # Find the point of intersection on the object.
+        toL = cuda.local.array(shape=(3), dtype=float32)
+        toO = cuda.local.array(shape=(3), dtype=float32)
     
-    
-    M = cuda.shared.array(shape=(3), dtype=float32)
-    M[0] = 1.
-    M[1] = 2.
-    M[2] = 3.
-    a,b,c = get_normal(scene[1], M)
-    
-    load_object(obj,scene, 0)
-    num = trace_ray(rayO_d, rayD_d, obj)
-    print num
-        
-    img[i,j,0] = D_d[0]
-    img[i,j,1] = D_d[1]
-    img[i,j,2] = D_d[2]
-    
-
-
-
-
-   
-    
-
-        
-
-
-
-        
-
+        t = intersect(rayO_d, rayD_d, obj)
+        for i in range(len(M)):
+            M[i] = rayO_d[i] + rayO_d[i] * t
+            # Find properties of the object.
+            a1,a2,a3 = get_normal(obj, M)
+            N[0] = a1
+            N[1] = a2
+            N[2] = a3
+            for i in range(len(toL)):
+                toL[i] = L[i]
+                toL[i] -= M[i]
+            for i in range(len(toO)):
+                toO[i] = O[i]
+                toO[i] -= M[i]
+            toL = normalize(toL)
+            toO = normalize(toO)
+        # Shadow: find if the point is shadowed or not.
+        l = cuda.local.array(shape=(10000), dtype=float32)
+        count = 0
+        for k in range(len(scene)):
+            if k != idx:
+                load_object(obj_sh, scene, k)
+                for a in range(len(ray_sh)):
+                    ray_sh[a] = M[a] + N[a] * .0001
+            l[count] = intersect(ray_sh, toL, obj_sh)
+            count += 1
+        for k in range(count):
+            if l[k] == -1:
+                l[k] = 10000
+        minimum = -1
+        if count > 0:
+            minimum = l[0]
+            for k in range(count):
+                if minimum < l[k]:
+                    minimum = l[k]
+        if count > 0 and minimum < 10000:
+            img[i,j,0] = 0
+            img[i,j,1] = 0
+            img[i,j,2] = 0
+        else:
+            while depth_d[0] < depth_max:
+                trace_ray(rayO_d, rayD_d, obj, M, N, col_ray)
+                for i in range(len(rayO_d)):
+                    rayO_d[i] += M[i] + N[i] * .0001
+                tmp =  2 * dot(rayD_d, N)
+                for i in range(len(rayD_d)):
+                    rayD_d[i] -= (tmp * N[i])
+                    rayD_d = normalize(rayD_d)
+                depth_d[0] += 1
+                for i in range(len(col_d)):
+                    col_d[i] += reflection_d[0] * col_ray[i]
+            img[i,j,0] = col_d[0]
+            img[i,j,1] = col_d[1]
+            img[i,j,2] = col_d[2]
+              
+    cuda.syncthreads()
+ 
 
     
 # List of objects. Each object is encoded into four attributes(Type, Position, Color, Radius/Normal), each attributes has three dimensions
@@ -298,6 +367,8 @@ threadsperblock_y = int(round(1.0*w/16 + 0.5))
 threadsperblock = (threadsperblock_x, threadsperblock_y)
 fast_compute[blockspergrid,threadsperblock](img,xy,O,scene)
 #print img
+
+plt.imsave('figGPU.png', img)
 
 
 
