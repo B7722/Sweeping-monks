@@ -1,0 +1,28 @@
+Name: Camera
+Position: -1 0.35 -1.5
+Orientation: 0.5 0 0
+Name: Tetrahedran
+Point1: 1 0.5 1
+Point2: 1.75 1 1
+Point3: 1.25 0.1 2
+Point4: 1.5 1.1 1.5
+Color: 0 0 1
+Transparency: 100
+Name: Camera
+Position: 
+Orientation: 
+Name: Cuboid
+Position: 0 -0.5 2
+X: 0.6 0 0
+Y: 0 0.6 0
+Z: 0 0 0.6
+Color: 0 0 1
+Transparency: 100
+Name: Camera
+Position: 
+Orientation: 
+Name: Ball
+Position: -0.75 0.1 2.24
+Radius: 0.6
+Color: 0.5 0.233 0.5
+Transparency: 100
