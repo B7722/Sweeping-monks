@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import math
 from numba import cuda, float32, int8
 
-
 w = 400
 h = 300
 
@@ -300,7 +299,7 @@ def fast_compute(img,xy,O,scene):
             img[i,j,2] = 0
         else:
             while depth_d[0] < depth_max:
-                trace_ray(rayO_d, rayD_d, obj, M, N, col_ray)
+                col_ray = trace_ray(rayO_d, rayD_d, obj, M, N, col_ray)
                 for i in range(len(rayO_d)):
                     rayO_d[i] += M[i] + N[i] * .0001
                 tmp =  2 * dot(rayD_d, N)
@@ -309,10 +308,11 @@ def fast_compute(img,xy,O,scene):
                     rayD_d = normalize(rayD_d)
                 depth_d[0] += 1
                 for i in range(len(col_d)):
-                    col_d[i] += reflection_d[0] * col_ray[i]
+                    col_d[i] +=  col_ray[i]
             img[i,j,0] = col_d[0]
             img[i,j,1] = col_d[1]
             img[i,j,2] = col_d[2]
+        
               
     cuda.syncthreads()
  
@@ -358,9 +358,6 @@ for j, y in enumerate(np.linspace(S[1], S[3], h)):
         xy[j,i,0] = x
         xy[j,i,1] = y
 
-
-
-
 blockspergrid = (16,16)
 threadsperblock_x = int(round(1.0*h/16 + 0.5))
 threadsperblock_y = int(round(1.0*w/16 + 0.5))
@@ -369,6 +366,4 @@ fast_compute[blockspergrid,threadsperblock](img,xy,O,scene)
 #print img
 
 plt.imsave('figGPU.png', img)
-
-
 
