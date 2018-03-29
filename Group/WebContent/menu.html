@@ -1,0 +1,147 @@
+<html>
+
+<style>
+#body{
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	
+	}
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:105%;
+    width:100%;
+    float:left;
+    padding:5px;	      
+}
+.button {
+	width:100px;
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;   
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: black;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+
+</style>
+<body>
+
+
+
+	<div id="nav">
+		<form action="HelloServlet" method="post">
+
+		<ul>
+			<li>
+				<a href="transform.html" target="view_frame">Layout</a>
+			</li>
+
+			<li>
+				<a href="Trangle.html" target="view_frame"><img src="images/Cone.png" widht="40px" height="40px"><br></a>
+				<input type="text" placeholder="First Point" name="tetrahedron_1">
+				<input type="text" placeholder="Second Point" name="tetrahedron_2">
+				<input type="text" placeholder="Third Point" name="tetrahedron_3">
+				<input type="text" placeholder="Last Point"	name="tetrahedron_4">
+			</li>
+
+			<li>
+				<a href="ball.html" target="view_frame"><img src="images/Ball.png" widht="40px" height="40px"><br></a>
+				<input type="text"	placeholder="PositionPoint" name="ball_p">
+				<input type="text" placeholder="R"  name="ball_r"></li>
+
+
+
+			<li>
+				<a href="cubid.html" target="view_frame"><img src="images/Cuboid.png" widht="40px" height="40px"><br></a>
+				<input type="text" placeholder="PositionPoint" name="cuboid_p">
+				<input type="text" placeholder="X" name="cuboid_x">
+				<input type="text" placeholder="Y" name="cuboid_y">
+				<input type="text" placeholder="Z" name="cuboid_z">
+			</li>
+
+			<li>
+				<a href="cone.html" target="view_frame"><img src="images/Trangle.png" widht="40px" height="40px"><br></a>
+					<input type="text" placeholder="PositionPoint" name="trangle_p">
+					<input type="text" placeholder="X" name="trangle_x">
+					<input type="text" placeholder="Y" name="trangle_y">
+					<input type="text" placeholder="Z" name="trangle_z">
+			</li>
+
+
+			<li>
+				Color
+				<br>
+				<input type="text" placeholder="R" name="color_r">
+				<input type="text" placeholder="G" name="color_g">
+				<input type="text" placeholder="B" name="color_b">
+				<br>
+			</li>
+
+			<li>
+				Camera
+				<br>
+				<input type="text" placeholder="Position" name="camera_p">
+				<input type="text" placeholder="Direction" name="camera_d">
+				<br>
+			</li> 
+
+			<li>
+				Opacity
+				<input type="range" min="0" max="100" value="100" name = "range"/>
+				<br>
+				<br>
+				<input type="text" id = "button" style="display:none" name = "button"  value = "">
+			</li>
+
+
+			<input class="button" type="submit" value="Add" id = "btn1" onclick = "Push();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+			<input class="button"  type = "submit" value='Save'  id = "btn2" onclick = "Push();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+			<input class="button"  type = "submit" value='Clean'  id = "btn3" onclick = "Push();">
+
+		</ul>
+
+			<script>
+			//push = function()
+			//{
+				//if(document.getElementById("btn1").isclisk ==1){
+					//document.getElementById("button").value = "Add";}
+				//else if(document.getElementById("btn2").isclisk ==1){
+					//document.getElementById("button").value = "Save";
+				//}
+				//else{
+					//document.getElementById("button").value = "Clean"	;	
+				//}
+			//}
+				document.onclick=function()
+				{ var obj = event.srcElement; 
+					if(obj.id == "btn1"){ 
+						document.getElementById("button").value = "Add"; } 
+					else if(obj.id =="btn2"){
+						document.getElementById("button").value = "Save";
+						}
+					else{
+						document.getElementById("button").value = "Clean";
+					}
+				}
+			</script>
+
+		</form>
+	</div>
+
+</body>
+</html>
